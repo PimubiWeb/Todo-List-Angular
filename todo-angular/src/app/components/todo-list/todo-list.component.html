@@ -1,5 +1,24 @@
-<input type="text" class="todo-input" placeholder="Enter a title todo">
+<input type="text" class="todo-input" placeholder="Enter a title todo"
+[(ngModel)]="todoTitle" (keyup.enter)="addTodo()">
+
+<input type="text" class="todo-input" placeholder="Enter a title todo"
+[(ngModel)]="todoDescription" (keyup.enter)="addTodo()">
 
 <div class="todo-item" *ngFor="let todo of todos">
-  <div>{{todo.title}}</div>
+  <div class="todo-item">
+
+    <input type="checkbox" [(ngModel)]="todoCompleted">
+    <div class="todo-item-label">
+      <div>{{todo.title}}</div>
+      <div>{{todo.description}}</div>
+      <div>{{todo.date}}</div>
+    </div>
+  </div>
+  <div class="remove-item" (click)="deleteTodo(todo.id)">
+    &times; 
+  </div>
+
+
+  
+
 </div>
