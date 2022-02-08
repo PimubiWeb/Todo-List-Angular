@@ -6,7 +6,7 @@
 
 <button (click)="addTodo()" class="todo-btn">Add</button>
 
-<div class="todo-item" *ngFor="let todo of todos; index as i;">
+<div class="todo-item" *ngFor="let todo of todosFiltered(); index as i;">
   <div class="todo-item">
 
     <input type="checkbox" (click)="changeCompleted(i)" >
@@ -15,6 +15,12 @@
       <div>{{todo.description}}</div>
       <div>{{todo.date}}</div>
     </div>
+
+    <div>
+      <button (click)="changePriority(i, 0)">High</button>
+      <button (click)="changePriority(i, 1)">Medium</button>
+      <button (click)="changePriority(i, 2)">Low</button>
+  </div>
   </div>
   <div class="remove-item" (click)="deleteTodo(todo.id)">
     &times;
@@ -27,9 +33,9 @@
 
 <div class="extra-container">
   <div>
-    <button class="active">All</button>
-    <button>Active</button>
-    <button>Completed</button>
+    <button [ngClass]="{'active': filter === 'all'}" (click)="filter='all'">All</button>
+    <button [ngClass]="{'active': filter === 'active'}" (click)="filter='active'">Active</button>
+    <button [ngClass]="{'active': filter === 'completed'}" (click)="filter='completed'">Completed</button>
   </div>
     
   <div>

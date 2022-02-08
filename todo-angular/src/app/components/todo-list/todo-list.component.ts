@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'todo-list',
@@ -13,6 +14,8 @@ export class TodoListComponent implements OnInit {
   todoDescription = '';
   todoDate = new Date().toDateString();
   idTodo= 0;
+  filter= 'all'
+  priority = 0;
 
   constructor() {
     this.downloadLocal();
@@ -22,6 +25,7 @@ export class TodoListComponent implements OnInit {
     this.todoTitle = '';
     this.todoDescription = '';
     this.idTodo = 1;
+    
     //this.todos = [];
     }
 
@@ -37,7 +41,8 @@ export class TodoListComponent implements OnInit {
         title: this.todoTitle,
         description: this.todoDescription,
         date: this.todoDate,
-        completed: false
+        completed: false,
+        priority: 0 //0 high 1 medium 2 low 
       })
       this.todoTitle = '';
       this.todoDescription = '';
@@ -54,6 +59,12 @@ export class TodoListComponent implements OnInit {
     changeCompleted(i: number):void { //change boolean value of todo.completed 
       this.todos[i].completed = !this.todos[i].completed;
       this.updateLocal();
+    }
+
+    changePriority(index: number, p:number){
+      this.todos[index].priority = p
+      this.updateLocal(); 
+
     }
     
     // local storage
@@ -78,6 +89,21 @@ export class TodoListComponent implements OnInit {
     deleteCompleted(): void {
       this.todos = this.todos.filter(todo => !todo.completed);
       this.updateLocal();
+    }
+
+    todosFiltered() {
+      let filteredArray = [];
+      if (this.filter === 'all') {
+        filteredArray = this.todos;
+      } else if (this.filter === 'active') {
+        filteredArray = this.todos.filter(todo => !todo.completed);
+      } else if (this.filter === 'completed') {
+        filteredArray = this.todos.filter(todo => todo.completed);
+      }else{
+        filteredArray = this.todos;
+      }
+      
+      return filteredArray.sort((a,b) => a.priority - b.priority);
     }
   }
 
