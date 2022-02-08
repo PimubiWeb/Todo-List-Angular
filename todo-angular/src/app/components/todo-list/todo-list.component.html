@@ -1,24 +1,39 @@
 <input type="text" class="todo-input" placeholder="Enter a title todo"
 [(ngModel)]="todoTitle" (keyup.enter)="addTodo()">
 
-<input type="text" class="todo-input" placeholder="Enter a title todo"
+<input type="text" class="todo-input" placeholder="Enter a description todo"
 [(ngModel)]="todoDescription" (keyup.enter)="addTodo()">
 
-<div class="todo-item" *ngFor="let todo of todos">
+<button (click)="addTodo()" class="todo-btn">Add</button>
+
+<div class="todo-item" *ngFor="let todo of todos; index as i;">
   <div class="todo-item">
 
-    <input type="checkbox" [(ngModel)]="todoCompleted">
-    <div class="todo-item-label">
+    <input type="checkbox" (click)="changeCompleted(i)" >
+    <div class="todo-item-label" [ngClass]="{ 'completed' : todo.completed }">
       <div>{{todo.title}}</div>
       <div>{{todo.description}}</div>
       <div>{{todo.date}}</div>
     </div>
   </div>
   <div class="remove-item" (click)="deleteTodo(todo.id)">
-    &times; 
+    &times;
   </div>
+</div>
 
+<div class="extra-container">
+  <div>{{todos.length}} todos, {{remaining()}} left</div>
+</div>
 
-  
+<div class="extra-container">
+  <div>
+    <button class="active">All</button>
+    <button>Active</button>
+    <button>Completed</button>
+  </div>
+    
+  <div>
+    <button (click)="deleteCompleted()">Clear completed</button>
+  </div>
 
 </div>

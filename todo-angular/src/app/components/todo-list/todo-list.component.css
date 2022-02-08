@@ -27,7 +27,7 @@
 }
 .todo-btn:hover,
 .todo-btn:active {
-    color: rgb(32, 179, 101);
+    color: rgb(238, 28, 28);
 	background: rgb(0, 0, 0);
 }
 .todo-item {
@@ -54,7 +54,7 @@
     color: black;
     
 }
-.status {
+.completed {
     text-decoration: line-through;
     color: grey;
 }
@@ -73,11 +73,11 @@ button {
     appearance: none;
 }
 button:hover {
-    background: lightgreen;
+    background: pink;
 }
 button:focus {
     outline: none;
 }
 .active {
-    background: lightgreen;
+    background: lightcoral;
 }

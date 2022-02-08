@@ -14,20 +14,22 @@ export class TodoListComponent implements OnInit {
   todoDate = new Date().toDateString();
   idTodo= 0;
 
-  constructor() { }
+  constructor() {
+    this.downloadLocal();
+   }
 
   ngOnInit(): void {
     this.todoTitle = '';
     this.todoDescription = '';
     this.idTodo = 1;
-    this.todos = [];
+    //this.todos = [];
     }
 
-    addTodo(): void{
-      if(this.todoTitle.trim().length === 0 ){
+    addTodo(): void{ //Enter a new todo
+      if(this.todoTitle.trim().length === 0 ){ //need to write something in title
         return;
       }
-      if(this.todoDescription.trim().length === 0 ){
+      if(this.todoDescription.trim().length === 0 ){ //need to write something in desc
         return;
       }
       this.todos.push({
@@ -40,28 +42,42 @@ export class TodoListComponent implements OnInit {
       this.todoTitle = '';
       this.todoDescription = '';
       this.idTodo++;
+      this.updateLocal();
     }
 
-    deleteTodo(id: number): void {
+    deleteTodo(id: number): void { //delete a todo through its id
       const index = this.todos.findIndex((todo) => todo.id == id)
         this.todos.splice(index, 1)
         this.updateLocal();
     }
 
-    changeCompleted():void { //change boolean value of todo.completed 
-      
+    changeCompleted(i: number):void { //change boolean value of todo.completed 
+      this.todos[i].completed = !this.todos[i].completed;
+      this.updateLocal();
     }
-
-    //TODO dont work local storage
+    
     // local storage
-    // downloadLocal(): void{ 
-    //   if(JSON.parse(localStorage.getItem(this.LocalTodo)))
-    //       this.todos = JSON.parse(localStorage.getItem('todos'));
-    // }
+    downloadLocal(): void{
+      let a = localStorage.getItem('todos');
+      if(a)
+        this.todos = JSON.parse(a);
+        console.log(a)
+    }
 
     //update local storage
     updateLocal(): void{
       localStorage.setItem('todos', JSON.stringify(this.todos))
+    }
+
+    //advise how many todos have u done
+    remaining(): number {
+      return this.todos.filter(todo => !todo.completed).length;
+    }
+
+    //clear completed button to delete all todos that are completed
+    deleteCompleted(): void {
+      this.todos = this.todos.filter(todo => !todo.completed);
+      this.updateLocal();
     }
   }
 
